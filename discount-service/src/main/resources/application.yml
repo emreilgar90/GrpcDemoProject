@@ -1,0 +1,18 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:54323/discountDb
+    username: user
+    password: user123
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+
+discount:
+  grpc:
+    host: localhost
+    port: 54323

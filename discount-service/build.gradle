@@ -1,0 +1,64 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.2'
+	id 'io.spring.dependency-management' version '1.1.4'
+	id "com.google.protobuf" version "0.9.4"
+}
+
+group = 'com.emreilgar.product'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'org.postgresql:postgresql'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'javax.annotation:javax.annotation-api:1.3.2'  //grpcService için
+
+	implementation 'io.grpc:grpc-stub:1.58.0'
+	implementation 'io.grpc:grpc-protobuf:1.58.0'
+	implementation 'io.grpc:grpc-netty:1.58.0'
+
+	implementation 'net.devh:grpc-spring-boot-starter:2.15.0.RELEASE' exclude group: 'io.grpc', module: 'grpc-netty-shaded'
+
+}
+
+protobuf {
+	protoc { artifact = "com.google.protobuf:protoc:3.24.3" }
+	plugins {
+		grpc { artifact = "io.grpc:protoc-gen-grpc-java:1.58.0" }
+	}
+	generateProtoTasks {
+		all()*.plugins { grpc {} }
+	}
+}
+
+sourceSets {
+	main {
+		java {
+			srcDirs 'build/generated/source/proto/main/grpc'
+			srcDirs 'build/generated/source/proto/main/java'
+		}
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
