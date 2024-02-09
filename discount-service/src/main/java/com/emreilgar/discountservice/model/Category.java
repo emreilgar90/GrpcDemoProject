@@ -16,8 +16,7 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    private Integer externalId;
-
+    private String externalId;
     @OneToMany(mappedBy = "category",fetch = FetchType.LAZY)
     private List<Discount> discounts;
 }

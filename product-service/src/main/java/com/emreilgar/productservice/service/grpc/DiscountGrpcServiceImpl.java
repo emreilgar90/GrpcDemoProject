@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DiscountGrpcImpl implements DiscountGrpcService{
+public class DiscountGrpcServiceImpl implements DiscountGrpcService{
 
     private DiscountServiceGrpc.DiscountServiceBlockingStub discountServiceBlockingStub;
     private ManagedChannel channel; //channel oluşturuyoruz. Karşı service'in host'u ve post'u
-    public DiscountGrpcImpl(@Value("${discount.grpc.host}") String grpcHost,@Value("${discount.grpc.port}") int grpcPort){
+    public DiscountGrpcServiceImpl(@Value("${discount.grpc.host}") String grpcHost, @Value("${discount.grpc.port}") int grpcPort){
         System.out.println("----> Discount grpc: " + grpcHost+ " " + grpcPort);
         channel = ManagedChannelBuilder.forAddress(grpcHost,grpcPort)
                 .usePlaintext()
@@ -26,4 +26,5 @@ public class DiscountGrpcImpl implements DiscountGrpcService{
         DiscountResponse discountResponse = discountServiceBlockingStub.getDiscount(discountRequest);
         return discountResponse;
     }
+
 }

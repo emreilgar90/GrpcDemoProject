@@ -24,7 +24,7 @@ public class DiscountGrpcServiceImpl extends DiscountServiceGrpc.DiscountService
 
     @Override //17
     public void getDiscount(DiscountRequest request, StreamObserver<DiscountResponse> responseObserver) {
-        Category category= categoryRepository.findByExternalId((int)request.getExternalCategoryId())
+        Category category= categoryRepository.findByExternalId(String.valueOf(request.getExternalCategoryId()))
                 .orElseThrow(()->new RuntimeException("Category has not been found by external category"));
 
        Optional<Discount> discount= discountRepository.findByCodeAndCategoryId(request.getCode(),category.getId());
@@ -47,7 +47,7 @@ public class DiscountGrpcServiceImpl extends DiscountServiceGrpc.DiscountService
                            );
 
        }
-        responseObserver.onCompleted();  //çağrıyı tamamlamak
-        super.getDiscount(request, responseObserver);
+        responseObserver.onCompleted();
+
     }
 }
